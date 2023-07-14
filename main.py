@@ -65,3 +65,70 @@ def text_object(text,font):
     text_surface=font.render(text,True,black)
     #after that restart the game & ready to give some input
     return text_surface,text_surface.get_rect()
+
+#create car function
+def car(x,y):
+    #set position of the car
+    display.blit(carimg,(x,y))
+
+#all the function are called using this function
+def loop():
+    #set car position for x and y axis
+    x=400
+    y=540
+    #set changing position of the car
+    x_change=0
+    y_change=0
+    #set police car speed
+    policecar_speed=9
+    #set starting stage for the police car
+    police=0
+    #with this police car will come randomly
+    police_startx=random.randrange(130,(700-car_width))
+    #police car will comes in y axis in negative value because car is coming from opposite side
+    police_starty=-600
+    # set police car height and width
+    police_width=23
+    police_height=47
+
+#if the game doesn't have any problem to start
+    bumped=False
+    #start the game
+    while not bumped:
+        #defining the input of the game
+        for event in pygame.event.get():
+            #if quit input is given
+            if event.type==pygame.QUIT:
+            #   bumped=True     #game will stop
+                pygame.quit()
+                quit()
+
+            #defining the arrow keys
+            if event.type==pygame.KEYDOWN:
+                #if user is pressing the left arrow
+                if event.key==pygame.K_LEFT:
+                    #car will move left side -1
+                    x_change=-1
+                #if user is pressing the right arrow
+                if event.key==pygame.K_RIGHT:
+                    #car will move left side 1
+                    x_change=1
+            #if any key is not being pressed then stop the car
+            if event.type==pygame.KEYUP:
+                x_change=0
+        x+=x_change
+
+        #setting the color of the road
+        display.fill(gray)
+        #car speed that are coming from opposite side(y axis)
+        background()
+        police_starty-=(policecar_speed/1.2)
+        policecar(police_startx,police_starty,police)
+        #police car speed will increase slowly
+        police_starty+=policecar_speed
+        car(x,y)
+        #if the car goes out of range(side wall of the road)
+        if x<130 or x>700-car_width:
+        #bumped=True    #game is over
+            #call crash function
+            crash()
