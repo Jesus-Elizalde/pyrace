@@ -132,3 +132,22 @@ def loop():
         #bumped=True    #game is over
             #call crash function
             crash()
+
+        #seting how far the police car will go
+        if police_starty>600:
+            #only one car will cross the road in one time
+            police_starty=0-police_height
+            #then other car will come
+            police_startx=random.randrange(130,(1000-300))
+            #set how many car will come
+            police=random.randrange(0,2)
+
+        #if the police car does not cross the road then crash the car
+        if y<police_starty+police_height:
+            if x > police_startx and x < police_startx + police_width or x + car_width > police_startx and x + car_width < police_startx + police_width :
+                crash()
+        #restart the game
+        pygame.display.update()
+loop() # exiting from game
+pygame.quit()
+quit()
